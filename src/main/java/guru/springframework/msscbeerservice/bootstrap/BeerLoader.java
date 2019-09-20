@@ -1,14 +1,20 @@
 package guru.springframework.msscbeerservice.bootstrap;
 
+import guru.springframework.msscbeerservice.domain.Beer;
 import guru.springframework.msscbeerservice.repositories.BeerRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
  * Created by jt on 2019-05-17.
  */
-//@Component
+@Component
 public class BeerLoader implements CommandLineRunner {
 
     public static final String BEER_1_UPC = "0631234200036";
@@ -24,9 +30,54 @@ public class BeerLoader implements CommandLineRunner {
         this.beerRepository = beerRepository;
     }
 
+
     @Override
     public void run(String... args) throws Exception {
-        //using data.sql file now
-        //   loadBeerObjects();
+        if (beerRepository.count() == 0) {
+            loadInitialInv();
+        }
+    }
+
+    private void loadInitialInv() {
+        beerRepository.save(Beer.builder()
+                .id(BEER_1_UUID)
+                .beerName("Mango Bob")
+                .beerStyle("IPA")
+                .createdDate(Timestamp.valueOf(LocalDateTime.now()))
+                .lastModifiedDate(Timestamp.valueOf(LocalDateTime.now()))
+                .minOnHand(12)
+                .quantityToBrew(200)
+                .price(BigDecimal.valueOf(12.95))
+                .upc(BEER_1_UPC)
+                .version(1L)
+                .build()
+        );
+        beerRepository.save(Beer.builder()
+                .id(BEER_2_UUID)
+                .beerName("Galaxy Cat")
+                .beerStyle("PALE_ALE")
+                .createdDate(Timestamp.valueOf(LocalDateTime.now()))
+                .lastModifiedDate(Timestamp.valueOf(LocalDateTime.now()))
+                .minOnHand(12)
+                .quantityToBrew(200)
+                .price(BigDecimal.valueOf(12.95))
+                .upc(BEER_2_UPC)
+                .version(1L)
+                .build()
+        );
+        beerRepository.save(Beer.builder()
+                .id(BEER_3_UUID)
+                .beerName("Pinball Porter")
+                .beerStyle("PORTER")
+                .createdDate(Timestamp.valueOf(LocalDateTime.now()))
+                .lastModifiedDate(Timestamp.valueOf(LocalDateTime.now()))
+                .minOnHand(12)
+                .quantityToBrew(200)
+                .price(BigDecimal.valueOf(12.95))
+                .upc(BEER_3_UPC)
+                .version(1L)
+                .build()
+        );
+
     }
 }
